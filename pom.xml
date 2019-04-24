@@ -15,8 +15,17 @@
 		<version>1.5.9.RELEASE</version>
 	</parent>
 
+	<distributionManagement>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<url>http://34.83.115.57:8081/nexus/content/repositories/test</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 	<properties>
 		<start-class>com.khoubyari.example.Application</start-class>
+		<maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
+		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -131,6 +140,33 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<addResources>false</addResources>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>${maven-deploy-plugin.version}</version>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>${nexus-staging-maven-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>default-deploy</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<serverId>nexus</serverId>
+					<nexusUrl>http://34.83.115.57:8081/nexus/</nexusUrl>
+					<skipStaging>true</skipStaging>
 				</configuration>
 			</plugin>
 		</plugins>
